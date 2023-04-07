@@ -28,7 +28,11 @@ inputs:
   mark_as_latest:
     description: Mark the created GitHub release as 'latest'
     required: false
-    default: true
+    default: "true"
+  no_upload:
+    description: Mark the created GitHub release as 'latest'
+    required: false
+    default: "true"
 
 runs:
   using: composite
@@ -59,6 +63,10 @@ runs:
 
         if [[ -n "${{ inputs.install_only }}" ]]; then
             args+=(--install-only "${{ inputs.install_only }}")
+        fi
+
+        if [[ -n "${{ inputs.no_upload }}" ]]; then
+            args+=(--no-upload "${{ inputs.no_upload }}")
         fi
 
         if [[ -n "${{ inputs.skip_packaging }}" ]]; then

@@ -34,6 +34,7 @@ Usage: $(basename "$0") <options>
     -i, --install-only       Just install the cr tool
     -s, --skip-packaging     Skip the packaging step (run your own packaging before using the releaser)
     -l, --mark-as-latest     Mark the created GitHub release as 'latest' (default: true)
+    --no-upload              Do not upload the index.yaml (for publishing with github actions)
 EOF
 }
 
@@ -167,6 +168,12 @@ parse_command_line() {
                     shift
                 fi
                 ;;
+            --no-upload)
+                if [[ -n "${2:-}" ]]; then
+                    no_upload="$2"
+                    shift
+                fi
+                ;;
             -s|--skip-packaging)
                 if [[ -n "${2:-}" ]]; then
                     skip_packaging="$2"
@@ -289,13 +296,18 @@ release_charts() {
 }
 
 update_index() {
-    local args=(-o "$owner" -r "$repo" --push)
+    local args=(-o "$owner" -r "$repo")
     if [[ -n "$config" ]]; then
         args+=(--config "$config")
+    fi
+
+    if [[ -z "$no_upload" ]]; then
+        args+=(--push)
     fi
 
     echo 'Updating charts repo index...'
     cr index "${args[@]}"
 }
+
 
 main "$@"
