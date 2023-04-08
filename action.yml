@@ -1,6 +1,6 @@
-name: "Helm Chart Releaser"
+name: "Helm Chart Releaser without branch pages"
 description: "Host a Helm charts repo on GitHub Pages"
-author: "The Helm authors"
+author: "@tklauenberg"
 branding:
   color: blue
   icon: anchor
