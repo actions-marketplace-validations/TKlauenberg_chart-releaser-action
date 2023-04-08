@@ -306,6 +306,7 @@ update_index() {
     fi
 
     echo 'Updating charts repo index...'
+    echo "cr index ${args[@]}"
     cr index "${args[@]}"
 }
 
